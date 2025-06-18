@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flight Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>🛫 Flight Tracker</h1>
+    <form method="post">
+      <input type="text" name="flight" placeholder="Enter Flight Number (e.g. AI101)" required />
+      <button type="submit">Track</button>
+    </form>
+
+    {% if time %}
+      <p style="margin-top:10px; font-size: 14px; color: #777;">Searched on: {{ time }}</p>
+    {% endif %}
+
+    {% if flight %}
+      <div class="result-box">
+        {% if flight.error %}
+          <div style="color: red; background: #ffe6ea; padding: 15px; border-radius: 10px;">
+            {{ flight.error }}
+          </div>
+        {% else %}
+          <h2>{{ flight.airline }} ({{ flight.flight_number }})</h2>
+          <p>Status: 
+            <strong style="color:
+              {% if flight.status == 'active' %}green
+              {% elif flight.status == 'landed' %}blue
+              {% elif flight.status == 'cancelled' %}red
+              {% else %}orange{% endif %};">
+              {{ flight.status | capitalize }}
+            </strong>
+          </p>
+          <p>Departure: {{ flight.departure }} at {{ flight.scheduled_departure }}</p>
+          <p>Arrival: {{ flight.arrival }} at {{ flight.scheduled_arrival }}</p>
+          <p>Terminal: {{ flight.terminal }}</p>
+          <p>Delay: {{ flight.delay }} minutes</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
