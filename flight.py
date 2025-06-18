@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import requests
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
@@ -34,6 +35,10 @@ def index():
             }
         else:
             flight_info = {'error': 'Flight not found'}
+
+    if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # ✅ this makes it work on Render
+    app.run(debug=True, host="0.0.0.0", port=port)
 
     return render_template('flight.html', flight=flight_info, time=search_time)
 
