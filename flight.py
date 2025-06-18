@@ -42,5 +42,4 @@ def index():
 
     return render_template('flight.html', flight=flight_info, time=search_time)
 
-if __name__ == '__main__':
-    app.run(debug=True,port=5007)
+
